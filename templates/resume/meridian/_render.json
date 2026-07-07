@@ -1,0 +1,6 @@
+{
+  "templateHash": "sha256:64358ad66a7b291b26c0624517f82889",
+  "engine": "satori",
+  "diffRatio": 0.0215,
+  "note": "satori render within tolerance of headless browser; used for speed."
+}
