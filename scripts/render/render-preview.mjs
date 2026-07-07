@@ -84,6 +84,10 @@ const FONTS = [
   loadFont("SourceSerif-600.woff",     "Source Serif 4",   600),
   loadFont("SourceSans-400.woff",      "Source Sans 3",    400),
   loadFont("SourceSans-600.woff",      "Source Sans 3",    600),
+  loadFont("Manrope-400.woff",         "Manrope",          400),
+  loadFont("Manrope-500.woff",         "Manrope",          500),
+  loadFont("Manrope-600.woff",         "Manrope",          600),
+  loadFont("Manrope-700.woff",         "Manrope",          700),
 ];
 
 /* ─── page-background heuristic (shared by both engines) ─ */
