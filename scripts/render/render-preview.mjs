@@ -80,6 +80,10 @@ const FONTS = [
   loadFont("JetBrainsMono-400.woff",   "JetBrains Mono",   400),
   loadFont("JetBrainsMono-500.woff",   "JetBrains Mono",   500),
   loadFont("JetBrainsMono-600.woff",   "JetBrains Mono",   600),
+  loadFont("SourceSerif-400.woff",     "Source Serif 4",   400),
+  loadFont("SourceSerif-600.woff",     "Source Serif 4",   600),
+  loadFont("SourceSans-400.woff",      "Source Sans 3",    400),
+  loadFont("SourceSans-600.woff",      "Source Sans 3",    600),
 ];
 
 /* ─── page-background heuristic (shared by both engines) ─ */
