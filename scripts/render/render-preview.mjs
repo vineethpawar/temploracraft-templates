@@ -77,6 +77,9 @@ const FONTS = [
   loadFont("Newsreader-400.woff",      "Newsreader",       400),
   loadFont("Newsreader-600.woff",      "Newsreader",       600),
   loadFont("Newsreader-700.woff",      "Newsreader",       700),
+  loadFont("JetBrainsMono-400.woff",   "JetBrains Mono",   400),
+  loadFont("JetBrainsMono-500.woff",   "JetBrains Mono",   500),
+  loadFont("JetBrainsMono-600.woff",   "JetBrains Mono",   600),
 ];
 
 /* ─── page-background heuristic (shared by both engines) ─ */
