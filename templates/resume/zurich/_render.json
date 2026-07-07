@@ -1,0 +1,6 @@
+{
+  "templateHash": "sha256:21d2aa5e3553b3af2a74324fdb83fdb8",
+  "engine": "playwright",
+  "diffRatio": 0.0374,
+  "note": "satori diverged past threshold; using headless browser render."
+}
