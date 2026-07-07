@@ -71,6 +71,12 @@ const FONTS = [
   loadFont("IBMPlexSerif-400.woff",    "IBM Plex Serif",   400),
   loadFont("IBMPlexSerif-500.woff",    "IBM Plex Serif",   500),
   loadFont("IBMPlexSerif-700.woff",    "IBM Plex Serif",   700),
+  loadFont("IBMPlexSans-400.woff",     "IBM Plex Sans",    400),
+  loadFont("IBMPlexSans-500.woff",     "IBM Plex Sans",    500),
+  loadFont("IBMPlexSans-600.woff",     "IBM Plex Sans",    600),
+  loadFont("Newsreader-400.woff",      "Newsreader",       400),
+  loadFont("Newsreader-600.woff",      "Newsreader",       600),
+  loadFont("Newsreader-700.woff",      "Newsreader",       700),
 ];
 
 /* ─── page-background heuristic (shared by both engines) ─ */

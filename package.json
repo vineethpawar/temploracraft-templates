@@ -39,9 +39,11 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@fontsource/ibm-plex-sans": "^5.2.8",
     "@fontsource/ibm-plex-serif": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/inter-tight": "^5.2.7",
+    "@fontsource/newsreader": "^5.2.10",
     "@fontsource/playfair-display": "^5.2.8",
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.10.0",
