@@ -1,0 +1,30 @@
+name: validate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build schema
+        run: npm run build --workspace=@temploracraft/templates
+
+      - name: Typecheck
+        run: npm run check-types
+
+      - name: Validate templates
+        run: npm run validate

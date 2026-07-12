@@ -1,0 +1,13 @@
+# Placeholder — real npm publish flow lands in Milestone T-6 (CI + npm publish).
+# For now the main app installs directly from a git tag:
+#   "@temploracraft/templates": "github:vineethpawar/temploracraft-templates#v0.0.0"
+name: publish (placeholder)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "publish workflow lands with Milestone T-6"
