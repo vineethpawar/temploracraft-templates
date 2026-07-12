@@ -22,6 +22,8 @@ export const textTransformSchema = z.enum(["uppercase", "lowercase", "none"]);
 export const nodeFitSchema = z.enum(["cover", "contain"]);
 export const flowLayoutSchema = z.enum(["flow-vertical", "flow-horizontal"]);
 export const layoutSchema = z.enum(["absolute", "flow-vertical", "flow-horizontal"]);
+export const flexJustifySchema = z.enum(["start", "center", "end", "between", "around"]);
+export const flexAlignSchema = z.enum(["start", "center", "end", "baseline", "stretch"]);
 
 export const typographyStyleSchema = z.object({
   fontFamily: z.string().min(1),
@@ -48,6 +50,7 @@ const baseNodeSchema = z.object({
   height: z.number().positive().optional(),
   rotation: z.number().min(-360).max(360).optional(),
   opacity: z.number().min(0).max(1).optional(),
+  visibleIf: z.string().optional(),
 });
 
 export const textNodeSchema = baseNodeSchema.extend({
@@ -83,10 +86,18 @@ export const dividerNodeSchema = baseNodeSchema.extend({
   thickness: z.number().positive(),
 });
 
-// Section + Repeater reference `nodeSchema`, and each other. Zod
-// handles recursion via z.lazy — pattern below matches the plyxui
-// canvas layers schema (works, but keep the `Node` type export in
-// sync with types.ts manually to keep autocomplete precise).
+export const bulletListNodeSchema = baseNodeSchema.extend({
+  type: z.literal("bullet-list"),
+  bind: z.string().min(1),
+  layout: z.enum(["vertical", "inline"]).optional(),
+  bulletChar: z.string().max(6).optional(),
+  gap: z.number().nonnegative().optional(),
+  style: typographyStyleSchema,
+});
+
+// Section + Repeater reference nodeSchema, and each other. Zod
+// handles recursion via z.lazy; keep the `Node` type export in sync
+// with types.ts manually.
 export const sectionNodeSchema: z.ZodType<import("./types.js").SectionNode> = z.lazy(() =>
   baseNodeSchema.extend({
     type: z.literal("section"),
@@ -94,6 +105,8 @@ export const sectionNodeSchema: z.ZodType<import("./types.js").SectionNode> = z.
     layout: layoutSchema,
     gap: z.number().nonnegative().optional(),
     padding: z.tuple([z.number(), z.number(), z.number(), z.number()]).optional(),
+    justify: flexJustifySchema.optional(),
+    align: flexAlignSchema.optional(),
     children: z.array(nodeSchema),
   }),
 );
@@ -115,6 +128,7 @@ export const nodeSchema: z.ZodType<import("./types.js").Node> = z.lazy(() =>
     imageNodeSchema,
     rectNodeSchema,
     dividerNodeSchema,
+    bulletListNodeSchema,
     sectionNodeSchema,
     repeaterNodeSchema,
   ]),

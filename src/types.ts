@@ -10,6 +10,11 @@
  * field paths on the app's canonical ResumeData type. Inside a
  * Repeater bound to `experience`, `bind: "title"` refers to
  * `data.experience[i].title` for each iteration.
+ *
+ * TextNode.content supports `{{path}}` interpolation from the same
+ * scope, so a contact strip can be written once as
+ *   "{{email}} · {{phone}} · {{location}}"
+ * and the renderer collapses missing values + their separators.
  */
 
 export type TemplateVersion = 1;
@@ -23,6 +28,8 @@ export type TextTransform = "uppercase" | "lowercase" | "none";
 export type NodeFit = "cover" | "contain";
 export type FlowLayout = "flow-vertical" | "flow-horizontal";
 export type Layout = "absolute" | FlowLayout;
+export type FlexJustify = "start" | "center" | "end" | "between" | "around";
+export type FlexAlign = "start" | "center" | "end" | "baseline" | "stretch";
 
 export interface Author {
   name: string;
@@ -60,10 +67,17 @@ interface BaseNode {
   height?: number;
   rotation?: number;
   opacity?: number;
+  /**
+   * Hide this node when the referenced field is falsy (undefined, "",
+   * 0, or empty array). Useful for sections that shouldn't render
+   * if the user hasn't filled them in.
+   */
+  visibleIf?: string;
 }
 
 export interface TextNode extends BaseNode {
   type: "text";
+  /** Supports `{{path}}` interpolation from the current data scope. */
   content: string;
   style: TypographyStyle;
 }
@@ -95,12 +109,34 @@ export interface DividerNode extends BaseNode {
   thickness: number;
 }
 
+export interface BulletListNode extends BaseNode {
+  type: "bullet-list";
+  /** Path to a string[] on the current scope, e.g. "bullets". */
+  bind: string;
+  /**
+   * "vertical" (default) renders one item per line with `bulletChar`
+   * prefix (HTML renderer: `<ul><li>`). "inline" joins items into one
+   * paragraph with `bulletChar` as separator — used for skills-style
+   * flat lists.
+   */
+  layout?: "vertical" | "inline";
+  /** Character shown before / between items. */
+  bulletChar?: string;
+  /** px between items when layout is vertical. */
+  gap?: number;
+  style: TypographyStyle;
+}
+
 export interface SectionNode extends BaseNode {
   type: "section";
   label?: string;                        // shown in author tree, not rendered
   layout: Layout;
   gap?: number;
   padding?: [number, number, number, number];
+  /** flex-justify-content when layout is flow-* */
+  justify?: FlexJustify;
+  /** flex-align-items when layout is flow-* */
+  align?: FlexAlign;
   children: Node[];
 }
 
@@ -118,6 +154,7 @@ export type Node =
   | ImageNode
   | RectNode
   | DividerNode
+  | BulletListNode
   | SectionNode
   | RepeaterNode;
 

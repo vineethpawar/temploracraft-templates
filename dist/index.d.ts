@@ -1,5 +1,5 @@
-import { S as SectionNode, N as Node, R as RepeaterNode } from './manifest-BbcyDrHg.js';
-export { A as Author, D as DividerNode, a as Domain, F as FlowLayout, b as FontManifestEntry, c as FontWeight, I as ImageNode, L as Layout, d as License, e as NodeFit, P as PageSize, f as PlaceholderTextNode, g as RectNode, T as TemplateDoc, h as TemplateVersion, i as TextAlign, j as TextNode, k as TextTransform, l as ThemeColor, m as TypographyStyle, n as findTemplate, t as templates } from './manifest-BbcyDrHg.js';
+import { S as SectionNode, N as Node, R as RepeaterNode } from './manifest-Ci0Hx6_S.js';
+export { A as Author, B as BulletListNode, D as DividerNode, a as Domain, F as FlexAlign, b as FlexJustify, c as FlowLayout, d as FontManifestEntry, e as FontWeight, I as ImageNode, L as Layout, f as License, g as NodeFit, P as PageSize, h as PlaceholderTextNode, i as RectNode, T as TemplateDoc, j as TemplateVersion, k as TextAlign, l as TextNode, m as TextTransform, n as ThemeColor, o as TypographyStyle, p as findTemplate, t as templates } from './manifest-Ci0Hx6_S.js';
 import { z } from 'zod';
 
 declare const themeColorSchema: z.ZodString;
@@ -9,6 +9,8 @@ declare const textTransformSchema: z.ZodEnum<["uppercase", "lowercase", "none"]>
 declare const nodeFitSchema: z.ZodEnum<["cover", "contain"]>;
 declare const flowLayoutSchema: z.ZodEnum<["flow-vertical", "flow-horizontal"]>;
 declare const layoutSchema: z.ZodEnum<["absolute", "flow-vertical", "flow-horizontal"]>;
+declare const flexJustifySchema: z.ZodEnum<["start", "center", "end", "between", "around"]>;
+declare const flexAlignSchema: z.ZodEnum<["start", "center", "end", "baseline", "stretch"]>;
 declare const typographyStyleSchema: z.ZodObject<{
     fontFamily: z.ZodString;
     fontWeight: z.ZodUnion<[z.ZodLiteral<300>, z.ZodLiteral<400>, z.ZodLiteral<500>, z.ZodLiteral<600>, z.ZodLiteral<700>, z.ZodLiteral<800>]>;
@@ -58,6 +60,7 @@ declare const textNodeSchema: z.ZodObject<{
     height: z.ZodOptional<z.ZodNumber>;
     rotation: z.ZodOptional<z.ZodNumber>;
     opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
 } & {
     type: z.ZodLiteral<"text">;
     content: z.ZodString;
@@ -109,6 +112,7 @@ declare const textNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
 }, {
     type: "text";
     id: string;
@@ -129,6 +133,7 @@ declare const textNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
 }>;
 declare const placeholderTextNodeSchema: z.ZodObject<{
     id: z.ZodString;
@@ -138,6 +143,7 @@ declare const placeholderTextNodeSchema: z.ZodObject<{
     height: z.ZodOptional<z.ZodNumber>;
     rotation: z.ZodOptional<z.ZodNumber>;
     opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
 } & {
     type: z.ZodLiteral<"placeholder-text">;
     bind: z.ZodString;
@@ -190,6 +196,7 @@ declare const placeholderTextNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
     fallback?: string | undefined;
 }, {
     type: "placeholder-text";
@@ -211,6 +218,7 @@ declare const placeholderTextNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
     fallback?: string | undefined;
 }>;
 declare const imageNodeSchema: z.ZodObject<{
@@ -221,6 +229,7 @@ declare const imageNodeSchema: z.ZodObject<{
     height: z.ZodOptional<z.ZodNumber>;
     rotation: z.ZodOptional<z.ZodNumber>;
     opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
 } & {
     type: z.ZodLiteral<"image">;
     src: z.ZodString;
@@ -236,6 +245,7 @@ declare const imageNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
 }, {
     type: "image";
     id: string;
@@ -247,6 +257,7 @@ declare const imageNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
 }>;
 declare const rectNodeSchema: z.ZodObject<{
     id: z.ZodString;
@@ -256,6 +267,7 @@ declare const rectNodeSchema: z.ZodObject<{
     height: z.ZodOptional<z.ZodNumber>;
     rotation: z.ZodOptional<z.ZodNumber>;
     opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
 } & {
     type: z.ZodLiteral<"rect">;
     fill: z.ZodString;
@@ -272,6 +284,7 @@ declare const rectNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
     stroke?: string | undefined;
     strokeWidth?: number | undefined;
     radius?: number | undefined;
@@ -285,6 +298,7 @@ declare const rectNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
     stroke?: string | undefined;
     strokeWidth?: number | undefined;
     radius?: number | undefined;
@@ -297,6 +311,7 @@ declare const dividerNodeSchema: z.ZodObject<{
     height: z.ZodOptional<z.ZodNumber>;
     rotation: z.ZodOptional<z.ZodNumber>;
     opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
 } & {
     type: z.ZodLiteral<"divider">;
     color: z.ZodString;
@@ -312,6 +327,7 @@ declare const dividerNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
 }, {
     type: "divider";
     color: string;
@@ -323,6 +339,99 @@ declare const dividerNodeSchema: z.ZodObject<{
     height?: number | undefined;
     rotation?: number | undefined;
     opacity?: number | undefined;
+    visibleIf?: string | undefined;
+}>;
+declare const bulletListNodeSchema: z.ZodObject<{
+    id: z.ZodString;
+    x: z.ZodNumber;
+    y: z.ZodNumber;
+    width: z.ZodOptional<z.ZodNumber>;
+    height: z.ZodOptional<z.ZodNumber>;
+    rotation: z.ZodOptional<z.ZodNumber>;
+    opacity: z.ZodOptional<z.ZodNumber>;
+    visibleIf: z.ZodOptional<z.ZodString>;
+} & {
+    type: z.ZodLiteral<"bullet-list">;
+    bind: z.ZodString;
+    layout: z.ZodOptional<z.ZodEnum<["vertical", "inline"]>>;
+    bulletChar: z.ZodOptional<z.ZodString>;
+    gap: z.ZodOptional<z.ZodNumber>;
+    style: z.ZodObject<{
+        fontFamily: z.ZodString;
+        fontWeight: z.ZodUnion<[z.ZodLiteral<300>, z.ZodLiteral<400>, z.ZodLiteral<500>, z.ZodLiteral<600>, z.ZodLiteral<700>, z.ZodLiteral<800>]>;
+        fontSize: z.ZodNumber;
+        lineHeight: z.ZodNumber;
+        letterSpacing: z.ZodOptional<z.ZodNumber>;
+        color: z.ZodString;
+        align: z.ZodEnum<["left", "center", "right", "justify"]>;
+        transform: z.ZodOptional<z.ZodEnum<["uppercase", "lowercase", "none"]>>;
+    }, "strip", z.ZodTypeAny, {
+        fontFamily: string;
+        fontWeight: 300 | 400 | 500 | 600 | 700 | 800;
+        fontSize: number;
+        lineHeight: number;
+        color: string;
+        align: "left" | "center" | "right" | "justify";
+        letterSpacing?: number | undefined;
+        transform?: "uppercase" | "lowercase" | "none" | undefined;
+    }, {
+        fontFamily: string;
+        fontWeight: 300 | 400 | 500 | 600 | 700 | 800;
+        fontSize: number;
+        lineHeight: number;
+        color: string;
+        align: "left" | "center" | "right" | "justify";
+        letterSpacing?: number | undefined;
+        transform?: "uppercase" | "lowercase" | "none" | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    type: "bullet-list";
+    id: string;
+    x: number;
+    y: number;
+    style: {
+        fontFamily: string;
+        fontWeight: 300 | 400 | 500 | 600 | 700 | 800;
+        fontSize: number;
+        lineHeight: number;
+        color: string;
+        align: "left" | "center" | "right" | "justify";
+        letterSpacing?: number | undefined;
+        transform?: "uppercase" | "lowercase" | "none" | undefined;
+    };
+    bind: string;
+    width?: number | undefined;
+    height?: number | undefined;
+    rotation?: number | undefined;
+    opacity?: number | undefined;
+    visibleIf?: string | undefined;
+    layout?: "vertical" | "inline" | undefined;
+    bulletChar?: string | undefined;
+    gap?: number | undefined;
+}, {
+    type: "bullet-list";
+    id: string;
+    x: number;
+    y: number;
+    style: {
+        fontFamily: string;
+        fontWeight: 300 | 400 | 500 | 600 | 700 | 800;
+        fontSize: number;
+        lineHeight: number;
+        color: string;
+        align: "left" | "center" | "right" | "justify";
+        letterSpacing?: number | undefined;
+        transform?: "uppercase" | "lowercase" | "none" | undefined;
+    };
+    bind: string;
+    width?: number | undefined;
+    height?: number | undefined;
+    rotation?: number | undefined;
+    opacity?: number | undefined;
+    visibleIf?: string | undefined;
+    layout?: "vertical" | "inline" | undefined;
+    bulletChar?: string | undefined;
+    gap?: number | undefined;
 }>;
 declare const sectionNodeSchema: z.ZodType<SectionNode>;
 declare const repeaterNodeSchema: z.ZodType<RepeaterNode>;
@@ -441,4 +550,4 @@ declare const templateDocSchema: z.ZodObject<{
 }>;
 type TemplateDocParsed = z.infer<typeof templateDocSchema>;
 
-export { Node, RepeaterNode, SectionNode, type TemplateDocParsed, authorSchema, dividerNodeSchema, flowLayoutSchema, fontManifestEntrySchema, fontWeightSchema, imageNodeSchema, layoutSchema, nodeFitSchema, nodeSchema, pageSizeSchema, placeholderTextNodeSchema, rectNodeSchema, repeaterNodeSchema, sectionNodeSchema, templateDocSchema, textAlignSchema, textNodeSchema, textTransformSchema, themeColorSchema, typographyStyleSchema };
+export { Node, RepeaterNode, SectionNode, type TemplateDocParsed, authorSchema, bulletListNodeSchema, dividerNodeSchema, flexAlignSchema, flexJustifySchema, flowLayoutSchema, fontManifestEntrySchema, fontWeightSchema, imageNodeSchema, layoutSchema, nodeFitSchema, nodeSchema, pageSizeSchema, placeholderTextNodeSchema, rectNodeSchema, repeaterNodeSchema, sectionNodeSchema, templateDocSchema, textAlignSchema, textNodeSchema, textTransformSchema, themeColorSchema, typographyStyleSchema };

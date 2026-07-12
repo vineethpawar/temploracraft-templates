@@ -1,12 +1,11 @@
 /**
- * The bundled manifest. Populated at build time by scanning
- * `templates/resume/<slug>/template.json`. Empty for now (v0.0.0);
- * the first entry lands in Milestone T-1 when we migrate the Modern
- * preset.
+ * Bundled template manifest. tsup inlines each JSON at build time
+ * (see tsup.config.ts — json loader by default in ESM output).
  */
 import type { TemplateDoc } from "./types.js";
+import modern from "../templates/resume/modern/template.json" with { type: "json" };
 
-export const templates: readonly TemplateDoc[] = [];
+export const templates: readonly TemplateDoc[] = [modern as unknown as TemplateDoc];
 
 export function findTemplate(slug: string): TemplateDoc | undefined {
   return templates.find((t) => t.slug === slug);

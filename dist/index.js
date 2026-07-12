@@ -1,7 +1,7 @@
 import {
   findTemplate,
   templates
-} from "./chunk-O7SU5LFC.js";
+} from "./chunk-RDUWZAVT.js";
 
 // src/zod.ts
 import { z } from "zod";
@@ -22,6 +22,8 @@ var textTransformSchema = z.enum(["uppercase", "lowercase", "none"]);
 var nodeFitSchema = z.enum(["cover", "contain"]);
 var flowLayoutSchema = z.enum(["flow-vertical", "flow-horizontal"]);
 var layoutSchema = z.enum(["absolute", "flow-vertical", "flow-horizontal"]);
+var flexJustifySchema = z.enum(["start", "center", "end", "between", "around"]);
+var flexAlignSchema = z.enum(["start", "center", "end", "baseline", "stretch"]);
 var typographyStyleSchema = z.object({
   fontFamily: z.string().min(1),
   fontWeight: fontWeightSchema,
@@ -44,7 +46,8 @@ var baseNodeSchema = z.object({
   width: z.number().positive().optional(),
   height: z.number().positive().optional(),
   rotation: z.number().min(-360).max(360).optional(),
-  opacity: z.number().min(0).max(1).optional()
+  opacity: z.number().min(0).max(1).optional(),
+  visibleIf: z.string().optional()
 });
 var textNodeSchema = baseNodeSchema.extend({
   type: z.literal("text"),
@@ -74,6 +77,14 @@ var dividerNodeSchema = baseNodeSchema.extend({
   color: themeColorSchema,
   thickness: z.number().positive()
 });
+var bulletListNodeSchema = baseNodeSchema.extend({
+  type: z.literal("bullet-list"),
+  bind: z.string().min(1),
+  layout: z.enum(["vertical", "inline"]).optional(),
+  bulletChar: z.string().max(6).optional(),
+  gap: z.number().nonnegative().optional(),
+  style: typographyStyleSchema
+});
 var sectionNodeSchema = z.lazy(
   () => baseNodeSchema.extend({
     type: z.literal("section"),
@@ -81,6 +92,8 @@ var sectionNodeSchema = z.lazy(
     layout: layoutSchema,
     gap: z.number().nonnegative().optional(),
     padding: z.tuple([z.number(), z.number(), z.number(), z.number()]).optional(),
+    justify: flexJustifySchema.optional(),
+    align: flexAlignSchema.optional(),
     children: z.array(nodeSchema)
   })
 );
@@ -100,6 +113,7 @@ var nodeSchema = z.lazy(
     imageNodeSchema,
     rectNodeSchema,
     dividerNodeSchema,
+    bulletListNodeSchema,
     sectionNodeSchema,
     repeaterNodeSchema
   ])
@@ -127,8 +141,11 @@ var templateDocSchema = z.object({
 });
 export {
   authorSchema,
+  bulletListNodeSchema,
   dividerNodeSchema,
   findTemplate,
+  flexAlignSchema,
+  flexJustifySchema,
   flowLayoutSchema,
   fontManifestEntrySchema,
   fontWeightSchema,
