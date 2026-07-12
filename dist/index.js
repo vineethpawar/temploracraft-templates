@@ -1,8 +1,3 @@
-import {
-  findTemplate,
-  templates
-} from "./chunk-RDUWZAVT.js";
-
 // src/zod.ts
 import { z } from "zod";
 var themeColorSchema = z.string().regex(
@@ -139,6 +134,413 @@ var templateDocSchema = z.object({
   fonts: z.array(fontManifestEntrySchema).optional(),
   root: sectionNodeSchema
 });
+
+// templates/resume/modern/template.json
+var template_default = {
+  version: 1,
+  domain: "resume",
+  slug: "modern",
+  name: "Modern",
+  description: "Clean, ATS-friendly resume with a terracotta accent. Bold display name, form-field contact strip, and generously-spaced sections.",
+  author: {
+    name: "Vineeth Pawar",
+    url: "https://vpawar.me",
+    githubUsername: "vineethpawar"
+  },
+  license: "MIT",
+  page: { width: 816, height: 1056 },
+  fonts: [
+    { family: "Inter", weights: [400, 500, 700, 800], source: "system" }
+  ],
+  root: {
+    id: "root",
+    type: "section",
+    x: 0,
+    y: 0,
+    label: "Page",
+    layout: "flow-vertical",
+    gap: 24,
+    padding: [56, 64, 56, 64],
+    children: [
+      {
+        id: "header",
+        type: "section",
+        x: 0,
+        y: 0,
+        label: "Header",
+        layout: "flow-vertical",
+        gap: 4,
+        children: [
+          {
+            id: "header-name",
+            type: "placeholder-text",
+            x: 0,
+            y: 0,
+            bind: "fullName",
+            fallback: "Your name",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 800,
+              fontSize: 34,
+              lineHeight: 1.1,
+              letterSpacing: -0.6,
+              color: "#1A1613",
+              align: "left"
+            }
+          },
+          {
+            id: "header-headline",
+            type: "placeholder-text",
+            x: 0,
+            y: 0,
+            bind: "headline",
+            fallback: "",
+            visibleIf: "headline",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 500,
+              fontSize: 15,
+              lineHeight: 1.4,
+              color: "#E85D3A",
+              align: "left"
+            }
+          },
+          {
+            id: "header-contact",
+            type: "text",
+            x: 0,
+            y: 0,
+            content: "{{email}}  \xB7  {{phone}}  \xB7  {{location}}",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 400,
+              fontSize: 12,
+              lineHeight: 1.4,
+              color: "#6B635B",
+              align: "left"
+            }
+          },
+          {
+            id: "header-rule",
+            type: "divider",
+            x: 0,
+            y: 0,
+            color: "#1A1613",
+            thickness: 2
+          }
+        ]
+      },
+      {
+        id: "summary",
+        type: "section",
+        x: 0,
+        y: 0,
+        label: "Summary",
+        layout: "flow-vertical",
+        visibleIf: "summary",
+        children: [
+          {
+            id: "summary-body",
+            type: "placeholder-text",
+            x: 0,
+            y: 0,
+            bind: "summary",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 400,
+              fontSize: 13,
+              lineHeight: 1.55,
+              color: "#1A1613",
+              align: "left"
+            }
+          }
+        ]
+      },
+      {
+        id: "experience",
+        type: "section",
+        x: 0,
+        y: 0,
+        label: "Experience",
+        layout: "flow-vertical",
+        gap: 12,
+        visibleIf: "experience",
+        children: [
+          {
+            id: "experience-title",
+            type: "text",
+            x: 0,
+            y: 0,
+            content: "Experience",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: 11,
+              lineHeight: 1.2,
+              letterSpacing: 1.4,
+              color: "#E85D3A",
+              align: "left",
+              transform: "uppercase"
+            }
+          },
+          {
+            id: "experience-list",
+            type: "repeater",
+            x: 0,
+            y: 0,
+            bind: "experience",
+            layout: "flow-vertical",
+            gap: 16,
+            template: {
+              id: "experience-item",
+              type: "section",
+              x: 0,
+              y: 0,
+              layout: "flow-vertical",
+              gap: 6,
+              children: [
+                {
+                  id: "experience-item-header",
+                  type: "section",
+                  x: 0,
+                  y: 0,
+                  layout: "flow-horizontal",
+                  justify: "between",
+                  align: "baseline",
+                  gap: 12,
+                  children: [
+                    {
+                      id: "experience-item-title",
+                      type: "text",
+                      x: 0,
+                      y: 0,
+                      content: "{{title}}  \xB7  {{company}}",
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 700,
+                        fontSize: 14,
+                        lineHeight: 1.3,
+                        color: "#1A1613",
+                        align: "left"
+                      }
+                    },
+                    {
+                      id: "experience-item-dates",
+                      type: "text",
+                      x: 0,
+                      y: 0,
+                      content: "{{startDate}} \u2014 {{endDate}}",
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 400,
+                        fontSize: 12,
+                        lineHeight: 1.3,
+                        color: "#6B635B",
+                        align: "right"
+                      }
+                    }
+                  ]
+                },
+                {
+                  id: "experience-item-location",
+                  type: "placeholder-text",
+                  x: 0,
+                  y: 0,
+                  bind: "location",
+                  visibleIf: "location",
+                  style: {
+                    fontFamily: "Inter",
+                    fontWeight: 400,
+                    fontSize: 12,
+                    lineHeight: 1.3,
+                    color: "#6B635B",
+                    align: "left"
+                  }
+                },
+                {
+                  id: "experience-item-bullets",
+                  type: "bullet-list",
+                  x: 0,
+                  y: 0,
+                  bind: "bullets",
+                  visibleIf: "bullets",
+                  bulletChar: "\xB7",
+                  gap: 2,
+                  style: {
+                    fontFamily: "Inter",
+                    fontWeight: 400,
+                    fontSize: 13,
+                    lineHeight: 1.55,
+                    color: "#1A1613",
+                    align: "left"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "education",
+        type: "section",
+        x: 0,
+        y: 0,
+        label: "Education",
+        layout: "flow-vertical",
+        gap: 12,
+        visibleIf: "education",
+        children: [
+          {
+            id: "education-title",
+            type: "text",
+            x: 0,
+            y: 0,
+            content: "Education",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: 11,
+              lineHeight: 1.2,
+              letterSpacing: 1.4,
+              color: "#E85D3A",
+              align: "left",
+              transform: "uppercase"
+            }
+          },
+          {
+            id: "education-list",
+            type: "repeater",
+            x: 0,
+            y: 0,
+            bind: "education",
+            layout: "flow-vertical",
+            gap: 8,
+            template: {
+              id: "education-item",
+              type: "section",
+              x: 0,
+              y: 0,
+              layout: "flow-horizontal",
+              justify: "between",
+              align: "baseline",
+              gap: 12,
+              children: [
+                {
+                  id: "education-item-left",
+                  type: "section",
+                  x: 0,
+                  y: 0,
+                  layout: "flow-vertical",
+                  gap: 2,
+                  children: [
+                    {
+                      id: "education-item-institution",
+                      type: "placeholder-text",
+                      x: 0,
+                      y: 0,
+                      bind: "institution",
+                      fallback: "Institution",
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 600,
+                        fontSize: 14,
+                        lineHeight: 1.3,
+                        color: "#1A1613",
+                        align: "left"
+                      }
+                    },
+                    {
+                      id: "education-item-degree",
+                      type: "text",
+                      x: 0,
+                      y: 0,
+                      content: "{{degree}}, {{field}}",
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 400,
+                        fontSize: 12,
+                        lineHeight: 1.3,
+                        color: "#6B635B",
+                        align: "left"
+                      }
+                    }
+                  ]
+                },
+                {
+                  id: "education-item-dates",
+                  type: "text",
+                  x: 0,
+                  y: 0,
+                  content: "{{startYear}} \u2014 {{endYear}}",
+                  style: {
+                    fontFamily: "Inter",
+                    fontWeight: 400,
+                    fontSize: 12,
+                    lineHeight: 1.3,
+                    color: "#6B635B",
+                    align: "right"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "skills",
+        type: "section",
+        x: 0,
+        y: 0,
+        label: "Skills",
+        layout: "flow-vertical",
+        gap: 12,
+        visibleIf: "skills",
+        children: [
+          {
+            id: "skills-title",
+            type: "text",
+            x: 0,
+            y: 0,
+            content: "Skills",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: 11,
+              lineHeight: 1.2,
+              letterSpacing: 1.4,
+              color: "#E85D3A",
+              align: "left",
+              transform: "uppercase"
+            }
+          },
+          {
+            id: "skills-body",
+            type: "bullet-list",
+            x: 0,
+            y: 0,
+            bind: "skills",
+            layout: "inline",
+            bulletChar: "  \xB7  ",
+            style: {
+              fontFamily: "Inter",
+              fontWeight: 400,
+              fontSize: 13,
+              lineHeight: 1.65,
+              color: "#1A1613",
+              align: "left"
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// src/manifest.ts
+var templates = [template_default];
+function findTemplate(slug) {
+  return templates.find((t) => t.slug === slug);
+}
 export {
   authorSchema,
   bulletListNodeSchema,
