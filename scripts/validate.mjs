@@ -8,7 +8,7 @@
  */
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { resolve, join } from "node:path";
-import { templateDocSchema } from "../packages/schema/dist/index.js";
+import { templateDocSchema } from "../dist/index.js";
 
 const ROOT = resolve(process.cwd(), "templates");
 const MAX_PREVIEW_BYTES = 200 * 1024;

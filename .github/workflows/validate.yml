@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Build schema
-        run: npm run build --workspace=@temploracraft/templates
+        run: npm run build
 
       - name: Typecheck
         run: npm run check-types
