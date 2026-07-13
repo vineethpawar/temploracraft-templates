@@ -32,15 +32,27 @@
     "check-types": "tsc --noEmit",
     "dev": "tsup --watch",
     "validate": "node scripts/validate.mjs",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "render": "node scripts/render/render-preview.mjs"
   },
   "dependencies": {
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@fontsource/ibm-plex-serif": "^5.2.7",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/playfair-display": "^5.2.8",
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.10.0",
+    "satori": "^0.26.0",
     "tsup": "^8.3.0",
     "typescript": "^5.6.0"
   },
-  "keywords": ["resume", "template", "temploracraft", "canvas", "pdf"]
+  "keywords": [
+    "resume",
+    "template",
+    "temploracraft",
+    "canvas",
+    "pdf"
+  ]
 }

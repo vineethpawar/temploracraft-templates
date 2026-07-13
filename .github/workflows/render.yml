@@ -1,0 +1,105 @@
+name: render
+
+# Regenerate preview.png for any template whose template.json changed.
+# Runs on push to main so preview updates land shortly after a merge —
+# the gallery in the main app pulls previews from raw.githubusercontent
+# on main, so freshness there = freshness in prod.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "templates/**/template.json"
+      - "scripts/render/**"
+      - ".github/workflows/render.yml"
+
+  # Manual trigger to backfill everything (e.g. after a renderer change).
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Re-render every template (ignore diff)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: render-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # so the workflow can commit back the regenerated PNG
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so we can diff against the previous commit.
+          fetch-depth: 2
+          # Use the default GITHUB_TOKEN — commit is authored as
+          # github-actions[bot], picked up by [skip ci] on the message
+          # to avoid a workflow loop.
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Determine which slugs changed
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event.inputs.all }}" = "true" ]; then
+            echo "mode=all" >> "$GITHUB_OUTPUT"
+            echo "slugs=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Diff HEAD^ … HEAD for template.json paths. If the previous
+          # commit isn't available (initial push, force push), fall
+          # back to rendering everything.
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            slugs=$(git diff --name-only HEAD^ HEAD -- 'templates/**/template.json' \
+              | awk -F/ '{print $3}' | sort -u | tr '\n' ' ')
+            if [ -z "$slugs" ]; then
+              echo "mode=none" >> "$GITHUB_OUTPUT"
+            else
+              echo "mode=diff" >> "$GITHUB_OUTPUT"
+              echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "mode=all" >> "$GITHUB_OUTPUT"
+            echo "slugs=" >> "$GITHUB_OUTPUT"
+          fi
+          echo "diff mode=$(cat "$GITHUB_OUTPUT")"
+
+      - name: Render
+        if: steps.changed.outputs.mode != 'none'
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.changed.outputs.mode }}" = "all" ]; then
+            npm run render
+          else
+            for slug in ${{ steps.changed.outputs.slugs }}; do
+              node scripts/render/render-preview.mjs --slug "$slug"
+            done
+          fi
+
+      - name: Commit + push if PNG changed
+        if: steps.changed.outputs.mode != 'none'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add templates/**/preview.png || true
+          if git diff --cached --quiet; then
+            echo "no preview.png changes to commit"
+            exit 0
+          fi
+          git commit -m "chore(render): regenerate preview.png [skip ci]"
+          git push
