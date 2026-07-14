@@ -38,12 +38,40 @@ Display, IBM Plex Serif in the exact weight subset the current
 templates use. Add new weights to `render-preview.mjs` when a template
 introduces them.
 
-## Caveats + Playwright fallback
+## Two engines, auto by default
 
-Satori is a flexbox subset and doesn't do everything a browser does.
-Known gaps for our templates: no arbitrary CSS transforms, no shadow /
-filter, no per-glyph kerning tables (letter-spacing only). For templates
-that need pixel-faithful renders — anything with a hand-tuned display
-face or overlapping elements — the plan is a Playwright fallback that
-mounts the same React canvas the author sees and screenshots the
-Konva stage. Not built yet; tracked as the T-7 followup.
+`--engine=auto` (the default and what CI uses) runs both engines on
+the first render, pixel-diffs them, and keeps whichever is faithful
+enough. The decision is cached in a sidecar file so subsequent runs
+against the same `template.json` content hash only invoke the
+chosen engine.
+
+| Engine | Speed | Fidelity | When it wins |
+|---|---|---|---|
+| `satori` | ~200ms | Flexbox subset, static woff2 fonts, no transforms / filters | Simple resume-style layouts (Modern, Classic) — most of the marketplace |
+| `playwright` | ~2s + 200MB Chromium | Real browser, real Google Fonts (variable + real kerning tables) | Templates with letter-spaced display headlines, glyph-hinted body copy, or anything with CSS satori doesn't implement |
+
+Threshold: 3% differing pixels (pixelmatch at threshold 0.15). Under
+that, satori wins on cost. Over, we hand it to Playwright.
+
+**Sidecar format** (`templates/<domain>/<slug>/_render.json`):
+
+```json
+{
+  "templateHash": "sha256:abc…",
+  "engine": "satori" | "playwright",
+  "diffRatio": 0.0299,
+  "note": "…"
+}
+```
+
+If `template.json` changes, the hash mismatch invalidates the cache
+and the next render re-runs both engines.
+
+## Manual overrides
+
+- `--engine=satori` — force satori even if the sidecar says
+  playwright. Useful when debugging satori regressions locally.
+- `--engine=playwright` — force headless-browser render. Useful when
+  authoring a new template that leans on features you know satori
+  can't do.

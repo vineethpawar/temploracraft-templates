@@ -44,6 +44,9 @@
     "@fontsource/playfair-display": "^5.2.8",
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.10.0",
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.61.1",
+    "pngjs": "^7.0.0",
     "satori": "^0.26.0",
     "tsup": "^8.3.0",
     "typescript": "^5.6.0"

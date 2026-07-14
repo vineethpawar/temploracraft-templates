@@ -51,6 +51,20 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      # Chromium install for the Playwright fallback. Cached across
+      # runs by the actions/cache below to avoid the ~200MB download
+      # every time.
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
       - name: Determine which slugs changed
         id: changed
         run: |
@@ -90,15 +104,15 @@ jobs:
             done
           fi
 
-      - name: Commit + push if PNG changed
+      - name: Commit + push if PNG or sidecar changed
         if: steps.changed.outputs.mode != 'none'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add templates/**/preview.png || true
+          git add 'templates/**/preview.png' 'templates/**/_render.json' 2>/dev/null || true
           if git diff --cached --quiet; then
-            echo "no preview.png changes to commit"
+            echo "no preview.png / _render.json changes to commit"
             exit 0
           fi
           git commit -m "chore(render): regenerate preview.png [skip ci]"
