@@ -10,6 +10,7 @@
     "githubUsername": "vineethpawar"
   },
   "license": "MIT",
+  "premium": true,
   "page": { "width": 816, "height": 1056 },
   "fonts": [
     { "family": "Playfair Display", "weights": [400, 600, 700], "source": "google" },

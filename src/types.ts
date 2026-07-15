@@ -168,5 +168,14 @@ export interface TemplateDoc {
   license: License;
   page: PageSize;
   fonts?: FontManifestEntry[];
+  /**
+   * True for first-party curated templates (Pro-only in the main app);
+   * false or absent for community-submitted templates, which stay free
+   * for everyone. Community contributors submitting a PR should leave
+   * this false — the maintainer sets it on merge when incorporating a
+   * template into the curated library. Not enforced by CI beyond a
+   * warning; the main app is the actual paywall via `templates.is_premium`.
+   */
+  premium?: boolean;
   root: SectionNode;
 }

@@ -155,6 +155,11 @@ export const templateDocSchema = z.object({
   license: z.literal("MIT"),
   page: pageSizeSchema,
   fonts: z.array(fontManifestEntrySchema).optional(),
+  // First-party curated templates flip this true and land as Pro-only
+  // in the main app. Community PRs should leave it false or omit —
+  // maintainer sets it on merge if the template is being pulled into
+  // the curated library. See CONTRIBUTING.md → "Premium vs community".
+  premium: z.boolean().optional(),
   root: sectionNodeSchema,
 });
 
