@@ -1,6 +1,21 @@
 # Contributing a template
 
-Everything in this repo is community-authored. Four paths to submit — pick the one that matches how comfortable you are with GitHub.
+Community templates are what makes the marketplace interesting. If
+you submit here, your template lives in the gallery at
+[app.temploracraft.com/templates](https://app.temploracraft.com/templates)
+as soon as your PR is merged, credited to your GitHub profile,
+free-forever for every temploracraft user.
+
+**Baseline you're agreeing to by submitting:**
+
+- MIT-licensed. Others can use, remix, and build on it.
+- Free forever on temploracraft.com. Community submissions never
+  land behind the Pro paywall (see [premium vs community](#premium-vs-community) below).
+- Attribution is preserved — your name and GitHub link show up on
+  the card and detail page.
+
+Four paths to submit — pick the one that matches how comfortable
+you are with GitHub.
 
 ## Level 1 — one-click Publish (recommended)
 
@@ -71,6 +86,47 @@ Every template's `template.json` has an `author` block:
 ```
 
 That's what shows up in the gallery card and on the `/templates/<slug>` detail page. Your name, forever, next to your work.
+
+## Premium vs community
+
+- **All community-submitted templates land as free.** No paywall, no
+  watermark. They stay free forever on the main site, MIT-licensed.
+- **Premium templates** (`"premium": true` in `template.json`) are
+  the curated set the maintainer designs and iterates on for the
+  Pro tier. Community PRs should leave `premium` false or omit it —
+  setting it in a PR will fail the review.
+- **If your submission is exceptional** and the maintainer wants to
+  promote it into the curated Pro library, you'll be asked first,
+  credited on the [pricing page](https://temploracraft.com/pricing),
+  and given a Pro comp on the app indefinitely. This is rare — the
+  default is community-free.
+
+Both premium and community templates use the exact same schema, the
+same validator, the same render pipeline, and the same gallery
+card. The only difference is who can create a design from it in
+the studio.
+
+## Style + review guidance
+
+Templates that get merged fast tend to:
+
+- **Solve a real archetype.** "Recruiter-friendly one-page" is a
+  clear pitch; "another modern-ish resume" isn't.
+- **Nail typography.** One or two font families, deliberate weights,
+  actual line-height tuning. If your first version looks like the
+  Google Docs default, iterate.
+- **Handle empty state.** Use `visibleIf` so sections without data
+  (empty summary, no education) disappear cleanly instead of leaving
+  a stray heading.
+- **Read at ATS scale.** Most people PDF this and upload it to a
+  job portal. Templates that survive a plain-text extraction pass
+  do materially better in the real world.
+- **Feel like they have an author.** The README should say what the
+  template is for, what it's not for, and what inspired it.
+
+Nothing here is a hard requirement — the goal is a marketplace, not
+a boutique — but templates that hit these tend to get used and
+featured.
 
 ## Questions
 
